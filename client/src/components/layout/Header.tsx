@@ -3,10 +3,10 @@ import { Button } from "@/components/ui/button";
 
 interface HeaderProps {
   isAdmin: boolean;
-  onToggleAdmin: () => void;
+  onAdminClick: () => void;
 }
 
-export function Header({ isAdmin, onToggleAdmin }: HeaderProps) {
+export function Header({ isAdmin, onAdminClick }: HeaderProps) {
   return (
     <header className="w-full bg-stone-900 text-stone-100 border-b-4 border-secondary py-4 shadow-lg relative z-30">
       <div className="container mx-auto px-4 flex items-center justify-between">
@@ -34,7 +34,7 @@ export function Header({ isAdmin, onToggleAdmin }: HeaderProps) {
           <Button 
             variant="ghost" 
             size="sm"
-            onClick={onToggleAdmin}
+            onClick={onAdminClick}
             className={isAdmin ? "text-primary hover:text-primary/80" : "text-stone-500 hover:text-stone-300"}
           >
             {isAdmin ? <ShieldAlert className="w-4 h-4 mr-2" /> : <Shield className="w-4 h-4 mr-2" />}

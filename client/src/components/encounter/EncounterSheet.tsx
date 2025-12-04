@@ -8,15 +8,18 @@ import {
 } from "@/components/ui/sheet";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, MapPin as MapIcon, Swords, Coins } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Calendar, MapPin as MapIcon, Swords, Coins, Trash2 } from "lucide-react";
 
 interface EncounterSheetProps {
   encounter: Encounter | null;
   isOpen: boolean;
   onClose: () => void;
+  isAdmin?: boolean;
+  onDelete?: (id: string) => void;
 }
 
-export function EncounterSheet({ encounter, isOpen, onClose }: EncounterSheetProps) {
+export function EncounterSheet({ encounter, isOpen, onClose, isAdmin, onDelete }: EncounterSheetProps) {
   if (!encounter) return null;
 
   return (
@@ -26,13 +29,31 @@ export function EncounterSheet({ encounter, isOpen, onClose }: EncounterSheetPro
         <div className="h-32 bg-stone-900 relative overflow-hidden">
           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/aged-paper.png')] opacity-50 mix-blend-overlay" />
           <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent" />
-          <div className="absolute bottom-4 left-6">
-            <Badge variant="outline" className="bg-primary/20 text-primary-foreground border-primary/40 mb-2 backdrop-blur-sm">
-              {encounter.type.toUpperCase()}
-            </Badge>
-            <h2 className="text-3xl font-heading font-bold text-primary-foreground drop-shadow-md">
-              {encounter.title}
-            </h2>
+          <div className="absolute bottom-4 left-6 right-6 flex justify-between items-end">
+            <div>
+              <Badge variant="outline" className="bg-primary/20 text-primary-foreground border-primary/40 mb-2 backdrop-blur-sm">
+                {encounter.type.toUpperCase()}
+              </Badge>
+              <h2 className="text-3xl font-heading font-bold text-primary-foreground drop-shadow-md">
+                {encounter.title}
+              </h2>
+            </div>
+            
+            {isAdmin && onDelete && (
+              <Button 
+                variant="destructive" 
+                size="icon" 
+                className="mb-1 shadow-lg hover:bg-destructive/90"
+                onClick={() => {
+                  if (confirm("Are you sure you want to delete this encounter?")) {
+                    onDelete(encounter.id);
+                    onClose();
+                  }
+                }}
+              >
+                <Trash2 className="w-4 h-4" />
+              </Button>
+            )}
           </div>
         </div>
 

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { InteractiveMap } from "@/components/map/InteractiveMap";
 import { EncounterSheet } from "@/components/encounter/EncounterSheet";
 import { NewEncounterDialog } from "@/components/encounter/NewEncounterDialog";
+import { AdminLoginDialog } from "@/components/admin/AdminLoginDialog";
 import { Header } from "@/components/layout/Header";
 import { Encounter, encounters as initialEncounters } from "@/data/encounters";
 import { useToast } from "@/hooks/use-toast";
@@ -13,6 +14,7 @@ export default function Home() {
   
   // Admin State
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isAdminLoginOpen, setIsAdminLoginOpen] = useState(false);
   const [newEncounterLocation, setNewEncounterLocation] = useState<{x: number, y: number} | null>(null);
   const [isNewEncounterOpen, setIsNewEncounterOpen] = useState(false);
   const { toast } = useToast();
@@ -49,9 +51,38 @@ export default function Home() {
     });
   };
 
+  const handleDeleteEncounter = (id: string) => {
+    setEncounters(encounters.filter(e => e.id !== id));
+    toast({
+      title: "Entry Removed",
+      description: "The encounter has been stricken from the records.",
+      variant: "destructive"
+    });
+  };
+
+  const handleAdminClick = () => {
+    if (isAdmin) {
+      setIsAdmin(false);
+      toast({
+        title: "Admin Mode Disabled",
+        description: "You are now viewing as a player.",
+      });
+    } else {
+      setIsAdminLoginOpen(true);
+    }
+  };
+
+  const handleAdminLogin = () => {
+    setIsAdmin(true);
+    toast({
+      title: "Admin Mode Enabled",
+      description: "You can now add and remove encounters.",
+    });
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-stone-950">
-      <Header isAdmin={isAdmin} onToggleAdmin={() => setIsAdmin(!isAdmin)} />
+      <Header isAdmin={isAdmin} onAdminClick={handleAdminClick} />
       
       <main className="flex-1 relative overflow-hidden">
         <div className="absolute inset-0 p-4 md:p-6 lg:p-8">
@@ -68,6 +99,8 @@ export default function Home() {
         encounter={selectedEncounter}
         isOpen={isSheetOpen}
         onClose={() => setIsSheetOpen(false)}
+        isAdmin={isAdmin}
+        onDelete={handleDeleteEncounter}
       />
 
       <NewEncounterDialog 
@@ -78,6 +111,12 @@ export default function Home() {
         }}
         onSubmit={handleCreateEncounter}
         location={newEncounterLocation}
+      />
+
+      <AdminLoginDialog 
+        isOpen={isAdminLoginOpen}
+        onClose={() => setIsAdminLoginOpen(false)}
+        onLogin={handleAdminLogin}
       />
     </div>
   );
