@@ -4,6 +4,7 @@ import { MapPin } from "./MapPin";
 import { encounters, Encounter } from "@/data/encounters";
 import { ZoomIn, ZoomOut, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import mapImage from "@assets/Sword-Coast-Map_HighRes_1764836285569.jpg";
 
 interface InteractiveMapProps {
   onEncounterSelect: (encounter: Encounter) => void;
@@ -55,7 +56,7 @@ export function InteractiveMap({ onEncounterSelect }: InteractiveMapProps) {
             >
               <div className="relative w-full h-full min-h-[800px]">
                 <img
-                  src="/attached_assets/Sword-Coast-Map_HighRes_1764836285569.jpg"
+                  src={mapImage}
                   alt="Sword Coast Map"
                   className="w-full h-full object-cover"
                   draggable={false}
