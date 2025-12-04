@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/home";
 import Characters from "@/pages/characters";
+import { CampaignProvider } from "./context/CampaignContext";
 
 function Router() {
   return (
@@ -20,10 +21,12 @@ function Router() {
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Router />
-      </TooltipProvider>
+      <CampaignProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Router />
+        </TooltipProvider>
+      </CampaignProvider>
     </QueryClientProvider>
   );
 }

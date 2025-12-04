@@ -7,6 +7,8 @@ import { AdminLoginDialog } from "@/components/admin/AdminLoginDialog";
 import { Button } from "@/components/ui/button";
 import { Plus, UserPlus } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useCampaign } from "@/context/CampaignContext";
+import { EditableText } from "@/components/ui/editable-text";
 
 export default function Characters() {
   const [characters, setCharacters] = useState<Character[]>(initialCharacters);
@@ -17,6 +19,7 @@ export default function Characters() {
   const [editingCharacter, setEditingCharacter] = useState<Character | null>(null);
   
   const { toast } = useToast();
+  const { data, updateData } = useCampaign();
 
   const handleCreateOrUpdate = (data: Omit<Character, "id">) => {
     if (editingCharacter) {
@@ -89,8 +92,20 @@ export default function Characters() {
       <main className="flex-1 container mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-8 border-b border-secondary/30 pb-4">
           <div>
-            <h1 className="text-3xl font-heading text-secondary mb-2">Dramatis Personae</h1>
-            <p className="text-muted-foreground font-serif italic">The heroes of our tale...</p>
+            <h1 className="text-3xl font-heading text-secondary mb-2 flex items-center gap-2">
+              <EditableText
+                value={data.charactersTitle}
+                onSave={(val) => updateData({ charactersTitle: val })}
+                isAdmin={isAdmin}
+              />
+            </h1>
+            <p className="text-muted-foreground font-serif italic">
+              <EditableText
+                value={data.charactersSubtitle}
+                onSave={(val) => updateData({ charactersSubtitle: val })}
+                isAdmin={isAdmin}
+              />
+            </p>
           </div>
           
           {isAdmin && (

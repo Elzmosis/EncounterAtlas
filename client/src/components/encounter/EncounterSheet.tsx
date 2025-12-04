@@ -19,7 +19,12 @@ interface EncounterSheetProps {
   onDelete?: (id: string) => void;
 }
 
+import { useCampaign } from "@/context/CampaignContext";
+import { EditableText } from "@/components/ui/editable-text";
+
 export function EncounterSheet({ encounter, isOpen, onClose, isAdmin, onDelete }: EncounterSheetProps) {
+  const { data, updateData } = useCampaign();
+
   if (!encounter) return null;
 
   return (
@@ -27,6 +32,7 @@ export function EncounterSheet({ encounter, isOpen, onClose, isAdmin, onDelete }
       <SheetContent className="w-[90vw] sm:w-[540px] bg-card border-l-4 border-primary/20 p-0 overflow-hidden flex flex-col">
         {/* Decorative Header Image or Texture could go here */}
         <div className="h-32 bg-stone-900 relative overflow-hidden">
+          {/* ... rest of the header code ... */}
           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/aged-paper.png')] opacity-50 mix-blend-overlay" />
           <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent" />
           <div className="absolute bottom-4 left-6 right-6 flex justify-between items-end">
@@ -104,7 +110,11 @@ export function EncounterSheet({ encounter, isOpen, onClose, isAdmin, onDelete }
         
         {/* Footer */}
         <div className="p-4 border-t border-border bg-muted/20 text-center text-xs text-muted-foreground italic">
-           From the Journals of the Sword Coast
+           <EditableText
+             value={data.journalFooter}
+             onSave={(val) => updateData({ journalFooter: val })}
+             isAdmin={!!isAdmin}
+           />
         </div>
       </SheetContent>
     </Sheet>
