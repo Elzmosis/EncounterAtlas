@@ -5,6 +5,8 @@ interface CampaignData {
   subtitle: string;
   charactersTitle: string;
   charactersSubtitle: string;
+  npcsTitle: string;
+  npcsSubtitle: string;
   journalFooter: string;
 }
 
@@ -18,6 +20,8 @@ const defaultData: CampaignData = {
   subtitle: "A record of our adventures",
   charactersTitle: "Dramatis Personae",
   charactersSubtitle: "The heroes of our tale...",
+  npcsTitle: "Notable Figures",
+  npcsSubtitle: "Friends and foes met along the way...",
   journalFooter: "From the Journals of the Sword Coast",
 };
 

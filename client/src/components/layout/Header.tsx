@@ -59,6 +59,14 @@ export function Header({ isAdmin, onAdminClick }: HeaderProps) {
                 Characters
               </span>
             </Link>
+            <Link href="/npcs">
+              <span className={cn(
+                "cursor-pointer transition-colors",
+                location === "/npcs" ? "text-secondary font-bold" : "hover:text-white"
+              )}>
+                NPCs
+              </span>
+            </Link>
             <Link href="/journal">
               <span className={cn(
                 "cursor-pointer transition-colors",
